@@ -1,0 +1,47 @@
+steps:
+  # 1. Frontmatter Schema Linter
+  - name: 'python:3.11-slim'
+    id: 'lint-frontmatter'
+    entrypoint: 'python'
+    args: ['scripts/ci/lint-frontmatter.py']
+
+  # 2. OpenSpec Delta & Checkbox Linter
+  - name: 'python:3.11-slim'
+    id: 'lint-openspec'
+    entrypoint: 'python'
+    args: ['scripts/ci/lint-openspec.py']
+
+  # 3. Domain Invariants Execution
+  - name: 'python:3.11-slim'
+    id: 'test-invariants'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi
+        if [ -d tests/invariants ]; then pytest tests/invariants/; fi
+
+  # 4. Deterministic Smoke Proof Harness
+  - name: 'python:3.11-slim'
+    id: 'test-smoke'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        if [ -d tests/smoke ]; then pytest tests/smoke/; fi
+
+  # 5. One-Way Downstream Projection (Trunk Merges Only)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    id: 'sync-projection'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        if [ "$BRANCH_NAME" = "main" ] && [ -f scripts/ci/sync-projection.sh ]; then
+          bash scripts/ci/sync-projection.sh
+        fi
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+substitutions:
+  _REGION: asia-southeast2
