@@ -10,7 +10,7 @@ author: Team / Author
 
 **Status:** Accepted (YYYY-MM-DD)  
 **Deciders:** @author, @collaborator  
-**Context Link:** `rfcs/RFC-YYYYMMDD-<slug>.md` or PR link  
+**Context Link:** `openspec/changes/<change-id>/` or PR link  
 
 ## 1. Context
 Describe the current state, constraints, and the technological or architectural bottleneck forcing this decision. Apply the 12-Month Rule.

@@ -2,8 +2,8 @@
 <!-- High-level description of what this change achieves. -->
 
 ## Associated Work Units
-- OpenSpec Change: `openspec/changes/<change-id>.md`
-- RFC / ADR: `rfcs/<rfc-id>.md` or `architecture/decisions/<adr-id>.md`
+- OpenSpec Change: `openspec/changes/<change-id>/`
+- ADR: `architecture/decisions/<adr-id>.md` (or N/A: ____)
 
 ## Invariant Verification
 - [ ] Invariant tests added in `tests/invariants/` or `tests/smoke/`

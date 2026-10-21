@@ -15,29 +15,37 @@ git clone <repo-url> && cd <project-name>
 docker compose up -d
 
 # 3. Install dependencies & run verification
-make setup
-make test
+just setup
+just test
 ```
 
 ---
 
 ## 2. Architecture & Service Topology
-System design and data flow represented as code:
+Layered Clean Architecture and service boundaries represented as code:
 
 ```mermaid
 flowchart LR
-    Client[Web / Mobile Client] --> Ingress[ALB Ingress Gateway]
-    Ingress --> Service[<Service-Name> Core Engine]
-    Service --> Cache[(Redis Cache)]
-    Service --> DB[(PostgreSQL Database)]
+    subgraph Service["<Service-Name> Boundary"]
+        Presentation["Presentation (HTTP / CLI)"]
+        Application["Application (Use Cases)"]
+        Domain["Domain (Pure Business Invariants)"]
+        Infrastructure["Infrastructure (DB, Adapters)"]
+        
+        Presentation --> Application
+        Application --> Domain
+        Infrastructure --> Application
+        Infrastructure --> Domain
+    end
 ```
 
 ---
 
-## 3. Operational Links & Living Documentation
+## 3. OpenSpec Workflow & Living Documentation
+- **Spec-Driven Changes:** Work is planned in discrete units under [`openspec/changes/`](openspec/changes/). Start a change with `/opsx:propose <name>` or `openspec new change <name>`.
+- **Standards:** Clean Architecture and tech stack rules stored under [`architecture/standards/`](architecture/standards/).
 - **Architecture & ADRs:** Permanent architectural records stored under [`architecture/decisions/`](architecture/decisions/).
 - **Operational Runbooks:** Incident SOPs stored under [`runbooks/`](runbooks/).
-- **Work Unit Deltas:** Active change specifications stored under [`openspec/changes/`](openspec/changes/).
 - **Agent Operating Rules:** Autonomous agent boundaries defined in [`AGENTS.md`](AGENTS.md).
 
 ---
@@ -47,11 +55,11 @@ Deterministic commands to validate code and contracts:
 
 ```bash
 # Fast domain invariants (< 10 seconds):
-make test-invariants
+just test-invariants
 
 # End-to-end runtime smoke proof:
-make test-smoke
+just test-smoke
 
 # In-repo documentation and frontmatter linters:
-make lint-docs
+just lint-docs
 ```

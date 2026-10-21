@@ -1,0 +1,7 @@
+schema: spec-driven
+context: |
+  Technology Stack & Architecture Standards:
+  - Review architecture/standards/clean-architecture-ddd.md and architecture/standards/technology-stack.md before proposing changes.
+rules:
+  tasks:
+    - "Tag tasks with target agent roles when appropriate ([scout], [sonic], [task])"

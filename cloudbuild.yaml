@@ -19,7 +19,7 @@ steps:
       - '-c'
       - |
         if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi
-        if [ -d tests/invariants ]; then pytest tests/invariants/; fi
+        if [ -d tests/invariants ] && [ -n "$(ls -A tests/invariants/*.py 2>/dev/null)" ]; then python3 -m unittest discover -s tests/invariants; else echo "No invariant tests found."; fi
 
   # 4. Deterministic Smoke Proof Harness
   - name: 'python:3.11-slim'
@@ -28,8 +28,7 @@ steps:
     args:
       - '-c'
       - |
-        if [ -d tests/smoke ]; then pytest tests/smoke/; fi
-
+        if [ -f tests/smoke/test_sanity.sh ]; then bash tests/smoke/test_sanity.sh; fi
   # 5. One-Way Downstream Projection (Trunk Merges Only)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     id: 'sync-projection'

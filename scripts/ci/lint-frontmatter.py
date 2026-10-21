@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validates YAML frontmatter across architecture/, rfcs/, and runbooks/."""
+"""Validates YAML frontmatter across architecture/ and runbooks/."""
 import sys
 from pathlib import Path
 import re
@@ -11,7 +11,6 @@ except ImportError:
 REQUIRED_FIELDS = {
     "Runbook": ["Type", "Purpose", "Audience", "Outcome", "Last Updated"],
     "Architecture": ["Type", "title", "status"],
-    "RFC": ["Type", "id", "title", "status", "author"],
 }
 
 def parse_frontmatter(raw: str) -> dict:
@@ -54,7 +53,7 @@ def check_file(path: Path) -> list[str]:
 
 def main():
     root = Path(".")
-    targets = list(root.glob("rfcs/**/*.md")) + list(root.glob("runbooks/**/*.md")) + list(root.glob("architecture/**/*.md"))
+    targets = list(root.glob("runbooks/**/*.md")) + list(root.glob("architecture/**/*.md"))
     all_errors = []
     for file in targets:
         if "templates" in file.parts or file.name.startswith("README"):
