@@ -1,0 +1,69 @@
+# ==============================================================================
+# justfile.project.example
+# ==============================================================================
+# Copy this file to `justfile.project` in your repository root to configure
+# project-specific implementations of the canonical agent runner targets.
+#
+# The upstream `justfile` automatically imports `justfile.project` if present.
+# Recipes prefixed with `_` are private and will not clutter `just --list`.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Example 1: Node.js / TypeScript (pnpm / vitest)
+# ------------------------------------------------------------------------------
+# _project-setup:
+#     pnpm install --frozen-lockfile
+#
+# _project-test-invariants:
+#     pnpm vitest run tests/invariants --reporter=basic
+#
+# _project-test-smoke:
+#     pnpm run test:smoke
+
+# ------------------------------------------------------------------------------
+# Example 2: Python (uv / pytest)
+# ------------------------------------------------------------------------------
+# _project-setup:
+#     uv sync --frozen
+#
+# _project-test-invariants:
+#     uv run pytest tests/invariants -m "not e2e" --maxfail=1
+#
+# _project-test-smoke:
+#     bash scripts/smoke-check.sh
+
+# ------------------------------------------------------------------------------
+# Example 3: Go (go mod / go test)
+# ------------------------------------------------------------------------------
+# _project-setup:
+#     go mod download && go mod verify
+#
+# _project-test-invariants:
+#     go test -short ./tests/invariants/...
+#
+# _project-test-smoke:
+#     go test ./tests/smoke/...
+
+# ------------------------------------------------------------------------------
+# Example 4: Rust (cargo)
+# ------------------------------------------------------------------------------
+# _project-setup:
+#     cargo fetch --locked
+#
+# _project-test-invariants:
+#     cargo test --test invariants
+#
+# _project-test-smoke:
+#     bash tests/smoke/test_sanity.sh
+
+# ------------------------------------------------------------------------------
+# Active Local Configuration (Uncomment and customize for your project)
+# ------------------------------------------------------------------------------
+# _project-setup:
+#     @echo "Bootstrapping project dependencies..."
+#
+# _project-test-invariants:
+#     @echo "Running local project invariants..."
+#
+# _project-test-smoke:
+#     @echo "Running local project smoke tests..."

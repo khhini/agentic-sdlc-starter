@@ -1,0 +1,15 @@
+# ==============================================================================
+# Git Attributes & Merge Strategies for Downstream Projects
+# ==============================================================================
+# When downstream projects merge updates from `agentic-sdlc-starter`,
+# these identity files will prioritize the downstream project's version
+# during three-way merges.
+#
+# Prerequisite on downstream developer/CI machines:
+#   git config merge.ours.driver true
+# ==============================================================================
+
+README.md merge=ours
+.gitignore merge=ours
+cloudbuild.yaml merge=ours
+architecture/standards/technology-stack.md merge=ours
