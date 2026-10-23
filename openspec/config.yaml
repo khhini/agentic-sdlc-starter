@@ -2,10 +2,3 @@ schema: spec-driven
 context: |
   Technology Stack & Architecture Standards:
   - Review architecture/standards/clean-architecture-ddd.md and architecture/standards/technology-stack.md before proposing changes.
-rules:
-  tasks:
-    - "Tag tasks with target agent roles when appropriate ([scout], [sonic], [task])"
-    - "For complex or delegated tasks, structure with explicit subagent contracts:"
-    - "  - Target: explicit file boundaries and non-goals"
-    - "  - Change: exact functions, endpoints, or data models to modify"
-    - "  - Acceptance: observable proof or passing invariant test"

@@ -33,7 +33,3 @@ Machine-readable instructions, constraints, and tool interfaces for autonomous A
   - Single-file edits under ~30 lines: Keep in-thread / main agent session.
   - Multi-file changes, refactoring, feature work, or investigations: Delegate to subagents via `task`.
 - **Non-Overlapping Slices**: Sibling subagents must operate on disjoint file sets or clear contract boundaries to avoid merge conflicts and race conditions.
-- **Explicit Contract Structure**: Subagent tasks must define self-contained requirements using:
-  - `# Target`: Target files and non-goals.
-  - `# Change`: Concrete implementation steps and API signatures.
-  - `# Acceptance`: Observable verification criteria and deliverables.
