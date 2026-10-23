@@ -63,3 +63,35 @@ just test-smoke
 # In-repo documentation and frontmatter linters:
 just lint-docs
 ```
+
+---
+
+## 5. Adopting in Existing Projects (Onboarding & Sync)
+To adopt this Agentic SDLC harness in an existing codebase without merge conflicts or project rewrites:
+
+### Initial Onboarding
+```bash
+# 1. Enable local 'ours' merge driver (preserves your README, .gitignore, and configs)
+git config merge.ours.driver true
+
+# 2. Add this starter as a git remote
+git remote add agentic-sdlc <starter-repo-url>
+
+# 3. Fetch and merge the clean distribution branch (strips internal changes/specs)
+git fetch agentic-sdlc template
+git merge --allow-unrelated-histories -m "chore: onboard agentic-sdlc" agentic-sdlc/template
+
+# 4. Configure your stack's build & test commands
+cp justfile.project.example justfile.project
+```
+
+### Customize Agent Boundaries
+- In `justfile.project`: Define `_project-setup`, `_project-test-invariants`, and `_project-test-smoke` for your stack (Node, Go, Python, Rust, etc.).
+- In `AGENTS.md`: Point to your architecture archetype and declare any prohibited paths.
+
+### Continuous Updates
+Pull the latest agent skills, linters, and workflow improvements anytime:
+```bash
+bash scripts/sync-upstream.sh
+```
+See [`docs/onboarding.md`](docs/onboarding.md) for the complete onboarding reference.
