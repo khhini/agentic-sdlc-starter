@@ -33,31 +33,36 @@ trap cleanup EXIT
 echo "==> Exporting repository files to clean workspace..."
 git archive HEAD | tar -x -C "$TEMP_DIR"
 
-# 2. Reset openspec/changes/ to clean placeholder state
+# 2. Prune starter-internal documentation (e.g. docs/onboarding.md)
+echo "==> Pruning starter-internal documentation..."
+rm -rf "${TEMP_DIR}/docs"
+
+# 3. Reset openspec/changes/ to clean placeholder state
 echo "==> Pruning internal OpenSpec changes and specs..."
 rm -rf "${TEMP_DIR}/openspec/changes"/*
 mkdir -p "${TEMP_DIR}/openspec/changes/archive"
 touch "${TEMP_DIR}/openspec/changes/.gitkeep"
 touch "${TEMP_DIR}/openspec/changes/archive/.gitkeep"
 
-# 3. Reset openspec/specs/ to clean placeholder state
+# 4. Reset openspec/specs/ to clean placeholder state
 rm -rf "${TEMP_DIR}/openspec/specs"/*
 mkdir -p "${TEMP_DIR}/openspec/specs"
 touch "${TEMP_DIR}/openspec/specs/.gitkeep"
 
-# 4. Verify clean projection state
+# 5. Verify clean projection state
 CHANGE_COUNT=$(find "${TEMP_DIR}/openspec/changes" -name "*.md" | wc -l | tr -d ' ')
 SPEC_COUNT=$(find "${TEMP_DIR}/openspec/specs" -name "*.md" | wc -l | tr -d ' ')
+DOCS_EXISTS=$([ -d "${TEMP_DIR}/docs" ] && echo "1" || echo "0")
 
 echo "==> Projection verification:"
 echo "    - Active OpenSpec changes remaining: ${CHANGE_COUNT}"
 echo "    - Specifications remaining: ${SPEC_COUNT}"
+echo "    - Docs directory present: ${DOCS_EXISTS}"
 
-if [[ "$CHANGE_COUNT" -ne 0 || "$SPEC_COUNT" -ne 0 ]]; then
-  echo "[-] ERROR: Projection failed to clean internal OpenSpec files." >&2
+if [[ "$CHANGE_COUNT" -ne 0 || "$SPEC_COUNT" -ne 0 || "$DOCS_EXISTS" -ne 0 ]]; then
+  echo "[-] ERROR: Projection failed to clean internal OpenSpec or docs files." >&2
   exit 1
 fi
-
 if [[ "$DRY_RUN" == "1" ]]; then
   echo "==> [DRY RUN] Projection verified successfully. No git branch updated."
   exit 0
