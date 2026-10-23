@@ -6,7 +6,7 @@ Machine-readable instructions, constraints, and tool interfaces for autonomous A
 - Read relevant documentation in `architecture/standards/` before proposing changes.
 - Never edit files outside the explicit scope declared in active `openspec/changes/<change-id>/` (`proposal.md` / `tasks.md`).
 - Adhere strictly to Clean Architecture layer rules in `architecture/standards/clean-architecture-ddd.md`.
-- Always write or update failing invariants in `tests/invariants/` or `tests/smoke/` before implementing production code in `src/`.
+- Always write or update failing invariants in `tests/invariants/` or `tests/smoke/` before implementing production code.
 - Show every change as a diff first when operating under interactive supervision.
 - Update corresponding ADRs, Runbooks, or Mermaid diagrams whenever introducing non-reversible technical choices or new failure modes per `.gitlab/merge_request_templates/Default.md`.
 
